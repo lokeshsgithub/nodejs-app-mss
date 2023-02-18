@@ -27,7 +27,7 @@
   },
   "publishConfig": {
 
-"registry": "http://13.232.226.18:1999/lokeshreddy/repository/citibank-nodejs/"
+"registry": "http://172.31.13.39:1999/lokeshreddy/repository/citibanknodejs/"
 
 },
   
