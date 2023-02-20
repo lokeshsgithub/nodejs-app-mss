@@ -1,0 +1,52 @@
+@Library('lokisharedlibs') _
+pipeline{
+    agent {
+        label'icicibanknode'
+    }
+    
+    stages{
+        
+        stage('checkoutcode'){
+            steps{
+                sendSlackNotifications('STARTED')
+                git branch: 'dev', credentialsId: '35cb5824-56de-4080-a955-741764651206', url: 'https://github.com/lokeshsgithub/nodejs-app-mss.git'
+            }
+        }
+        stage('Build'){
+            steps{
+            nodejs(nodeJSInstallationName='nodejs19.6.1'){
+             sh "npm install"    
+            }
+          }
+        }
+        stage('Executing the sonarqube report'){
+            steps{
+            nodejs(nodeJSInstallationName='nodejs19.6.1'){
+             sh "npm run sonar"    
+            }
+          }
+        }
+        /*stage('Uploading the artifact into nexus'){
+            steps{
+            nodejs(nodeJSInstallationName='nodejs19.6.1'){
+             sh "npm publish"    
+            }
+          }
+        }*/
+        stage('Deplo the NODEJS app'){
+            steps{
+                nodejs(nodeJSInstallationName='nodejs19.6.1'){
+                 sh "npm run app.js &"   
+                }
+            }
+        }
+    }//stages closed
+    post{
+        success{
+            sendSlackNotifications(currentBuild.result)
+        }
+        failure{
+            sendSlackNotifications(currentBuild.result)
+        }
+    }
+}//pipeline closed
