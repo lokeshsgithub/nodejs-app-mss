@@ -1,0 +1,11 @@
+version: '3'
+services:
+   nodeappmss:
+      image: lokeshsdockerhub/nodeappmss:version
+      ports:
+       - 9981:9981
+      networks:
+       - nodeappmssbridge
+networks:
+  nodeappmssbridge:
+     driver: bridge
