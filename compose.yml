@@ -1,7 +1,7 @@
 version: '3'
 services:
    nodeappmss:
-      image: lokeshsdockerhub/nodeappmss:version
+      image: lokeshsdockerhub/nodeappmss:VERSION
       ports:
        - 9981:9981
       networks:
